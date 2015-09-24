@@ -195,7 +195,7 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 
-# 내가추가한거
+# my Addiion
 *.sln
 *.vcxproj
 *.filters
