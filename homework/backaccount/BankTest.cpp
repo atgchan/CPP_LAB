@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "Bank.h";
+#include "Bank.h"
 
 int main()
 {
