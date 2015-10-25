@@ -41,13 +41,13 @@ ostream& operator<<(ostream& os, Person& p)
 	return os;
 }
 
-int main(void)
-{
-	Person p1("James", 20);
-	Person p2("Tomas", 30);
-	p2 = p1;
-	cout << p1 << p2;
-
-	getchar();
-	return 0;
-}
+//int main(void)
+//{
+//	Person p1("James", 20);
+//	Person p2("Tomas", 30);
+//	p2 = p1;
+//	cout << p1 << p2;
+//
+//	getchar();
+//	return 0;
+//}

@@ -12,6 +12,11 @@ public:
 	Point(int n1 = 0, int n2 = 0):xPos(n1), yPos(n2)
 	{}
 
+	~Point()
+	{
+		cout << "Destructor Called" << endl;
+	}
+
 	void ShowData()
 	{
 		cout << "[" << xPos << ", " << yPos << "]" << endl;
@@ -51,6 +56,15 @@ public:
 
 		return *this;
 	}
+
+	Point& operator+(const Point &ref)
+	{
+		Point p;
+		p.xPos = xPos + ref.xPos;
+		p.yPos = yPos + ref.yPos;
+
+		return p;
+	}
 };
 
 Point& operator+(Point& ref1, Point& ref2)
@@ -64,6 +78,72 @@ ostream& operator<<(ostream& os, Point& ref)
 	cout << "[" << ref.xPos << ", " << ref.yPos << "]" << endl;
 	return os;
 }
+
+class SmartPtr
+{
+private:
+	Point* posPtr;
+	int refCount;
+public:
+	SmartPtr():refCount(-1)
+	{}
+
+	SmartPtr(Point* ptr):posPtr(ptr), refCount(0)
+	{}
+
+	Point* operator->()
+	{
+		return posPtr;
+	}
+
+	Point& operator*()
+	{
+		return *posPtr;
+	}
+
+	SmartPtr& operator=(SmartPtr &ref)
+	{
+		posPtr = ref.posPtr;
+		ref.AddRef();
+			
+		return *this;
+	}
+
+	void AddRef()
+	{
+		refCount++;
+	}
+
+	void release()
+	{
+		refCount--;
+	}
+
+	~SmartPtr()
+	{
+		cout << refCount << endl;
+		if (refCount == 0)
+		{
+			delete posPtr;
+		}
+	}
+};
+
+//int main()
+//{
+//	Point *pointPtr = new Point(3, 5);
+//	delete pointPtr;
+//
+//	SmartPtr sptr1(new Point(3, 5));
+//	sptr1->ShowData();
+//
+//	cout << *sptr1;
+//
+//	SmartPtr sptr2;
+//	sptr2 = sptr1;
+//
+//	sptr1.release();
+//}
 
 //int main()
 //{
@@ -90,3 +170,36 @@ ostream& operator<<(ostream& os, Point& ref)
 //    return 0;
 //}
 
+class Adder
+{
+public:
+	int operator()(int num1, int num2)
+	{
+		return num1 + num2;
+	}
+
+	double operator()(double num1, double num2)
+	{
+		return num1 + num2;
+	}
+
+
+
+	Point& operator()(Point& p1, const Point& p2)
+	{
+		return p1 + p2;
+	}
+};
+
+int main()
+{
+	Adder adder;
+	int i = adder(1, 3);
+	cout << i << endl;
+
+	double d = adder(1.0, 4.3);
+	cout << d << endl;
+
+	Point p = adder(Point(1, 2), Point(4, 5));
+	cout << p << endl;
+}
